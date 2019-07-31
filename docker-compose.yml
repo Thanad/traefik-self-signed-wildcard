@@ -1,0 +1,41 @@
+version: '3'
+services:
+  web:
+    image: nginx
+    networks:
+      - web
+      - lb
+    labels:
+      - "traefik.frontend.rule=Host:web.localhost"
+    volumes:
+      - traefikdata:/traefikdata
+  lb:
+    image: traefik:alpine
+    command: 
+      - "--logLevel=DEBUG"
+      - "--api"
+      - "--docker"
+      - "--docker.watch"
+    environment:
+      - "DO_AUTH_TOKEN=xxx"
+    labels:
+      - "traefik.enable=false"
+    ports:
+      - 80:80
+      - 8080:8080
+      - 443:443
+    networks:
+      - lb
+    volumes:
+      - ./traefik.toml:/traefik.toml
+      - traefikdata:/etc/traefik/acme
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./certs:/certs
+
+networks:
+  lb:
+  web:
+
+volumes:
+  traefikdata:
+

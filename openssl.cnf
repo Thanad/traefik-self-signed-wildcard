@@ -1,0 +1,17 @@
+[ req ]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+prompt = no
+[req_distinguished_name]
+countryName                 = TH
+stateOrProvinceName         = Bangkok
+organizationName            = King Power Click
+commonName                  = localhost
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+[ alt_names ]
+DNS.1 = *.localhost
+DNS.2 = test.localhost
+DNS.3 = web.localhost
